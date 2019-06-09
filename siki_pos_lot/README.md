@@ -217,5 +217,11 @@ Se asigna de manera automática cantidad de inventario para los productos de tip
 Se asigna de manera automática Némero de Serie / Número de Lote y sus respectivas cantidades para los productos que dispone de ratreo
 ![](./static/src/img/Selección_742.png)
 
+
+
+
+### Requerimiento Fecha de vencimiento y organizacion de lista 
+
+
 ---------------------
 ---------------------
