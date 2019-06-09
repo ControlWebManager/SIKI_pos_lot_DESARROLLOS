@@ -8,20 +8,51 @@ Desarrollo de funcionlidad de lotes a partir de la App Point_of_sale version 11 
 
 siki_pos_lot
 
+### Nota IMportante
+
+Se verifica el código y se confirma el uso de Métodos del Core POS Version 11
+
+A realizar comparación con el código del POS Version 11, se percibe que en siki pos lot existen líneas de código omitidas, se válida que las mismas no sean estrictamente necesarias para el funcionamiento del POS y sus diferentes variantes en cuanto producto rastreables
 
 ## Lista de Modificaciones
 
-* V.-1.0 Se verifica tipo de Funciones que se esta utilizando, Metodos del Core POS Version 11
-    * V.-1.1 Se incorporan reglas de acceso para correcta funcionalidad en multiples cajas - Importante: en la asignacion de permiso al grupo, se debe colocar el module al que se hace referencia en nuestro caso point_of_sale
-        * Permisos:
-            * model_pos_pack_operation_lot
-            * model_stock_production_lot
-    * V.-2.0 Se corrige error de asignacion de cantidades de productos en la orden de entrega
+* V.-1.0 Se corrige la falta de asignación de cantidades en los productos de lotes y serial en la linea de orden
+* V.-1.1 Se incorporan reglas de acceso para correcta funcionalidad en multiples cajas - Importante: en la asignacion de permiso al grupo, se debe colocar el module al que se hace referencia en nuestro caso point_of_sale
+ * Permisos:
+    * model_pos_pack_operation_lot
+    * model_stock_production_lot
+* V.-2.0 Se corrige error de asignacion de cantidades de productos en la orden de entrega
 
 
 ### Fase de Prueba : 
 
-#### White Box / Test de Caja Blanca 001 
+#### White Box / Test de Caja Blanca 001
+
+Error, al seleccionar un prodcuto lote o serial , la asignación de cantidad no se actualiza 
+
+Código encontrado incompleto 
+
+``` ../siki_pos_lot/static/src/js/pos.js
+ set_quantity_by_lot: function() {
+      var valid_lots = this.get_valid_lots();
+      this.order_line.set_quantity(valid_lots.length);
+  }
+```
+Se actualizo de acuerdo el código completo del coro 11
+
+```  ../siki_pos_lot/static/src/js/pos.js
+set_quantity_by_lot: function() {
+        if (this.order_line.product.tracking == 'serial') {
+            var valid_lots_quantity = this.get_valid_lots().length;
+            if (this.order_line.quantity < 0){
+                valid_lots_quantity = -valid_lots_quantity;
+            }
+            this.order_line.set_quantity(valid_lots_quantity);
+        }
+    }
+```
+
+#### White Box / Test de Caja Blanca 002
 
 * V.-2.0 Se corrige error de asignacion de cantidades de productos en la orden de entrega
 * Se realizarón diferente pruebas de funcionalidad con diferentes variables, [Ver Pruebas](https://docs.google.com/spreadsheets/d/1fgJCBGUPm9i0FuufIGyPcttwbkDpb9LLXH0xId0Xz2I/edit?usp=sharing)
