@@ -34,14 +34,14 @@ models.PosModel = models.PosModel.extend({
             var prod_model = _.find(this.models, function(model){
                 return model.model === 'product.product';
             });
-            if (prod_model) {
+             if (prod_model) {
                 prod_model.fields.push('tracking');
-                var context_super = prod_model.context;
-                var loaded_super = prod_model.loaded;
-                prod_model.loaded = function(that, products){
-                    loaded_super(that, products);
-                    set_prod_vals(products);
-                };
+                //var context_super = prod_model.context;
+                //var loaded_super = prod_model.loaded;
+                //prod_model.loaded = function(that, products){
+                    //loaded_super(that, products);
+                    //set_prod_vals(products);
+               // };
                 return loaded;
             }
 
@@ -57,14 +57,15 @@ models.PosModel = models.PosModel.extend({
 
 var _super_order = models.Order.prototype;
  models.Order = models.Order.extend({
-    display_lot_popup: function() {
+  display_lot_popup: function() {
         var order_line = this.get_selected_orderline();
         if (order_line){
             var pack_lot_lines =  order_line.compute_lot_lines();
             this.pos.gui.show_popup('packlotline', {
                 'title': _t('Lot/Serial Number(s) Required'),
                 'pack_lot_lines': pack_lot_lines,
-                'order': this
+                'order_line': order_line,
+                'order': this,
             });
         }
     },
@@ -233,9 +234,14 @@ var PacklotlineCollection = Backbone.Collection.extend({
         });
     },
 
-    set_quantity_by_lot: function() {
-        var valid_lots = this.get_valid_lots();
-        this.order_line.set_quantity(valid_lots.length);
+     set_quantity_by_lot: function() {
+  if (this.order_line.product.tracking == 'serial') {
+            var valid_lots_quantity = this.get_valid_lots().length;
+            if (this.order_line.quantity < 0){
+                valid_lots_quantity = -valid_lots_quantity;
+            }
+            this.order_line.set_quantity(valid_lots_quantity);
+        }
     }
 });
 

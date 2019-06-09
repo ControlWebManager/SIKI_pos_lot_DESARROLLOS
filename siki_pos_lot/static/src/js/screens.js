@@ -41,6 +41,14 @@ show_product_lot: function(orderline){
 
 
 screens.ActionpadWidget.include({
+ init: function(parent, options) {
+        var self = this;
+        this._super(parent, options);
+
+        this.pos.bind('change:selectedClient', function() {
+            self.renderElement();
+        });
+    },
     
   renderElement: function() {
         var self = this;
@@ -51,14 +59,17 @@ screens.ActionpadWidget.include({
                 return line.has_valid_product_lot();
             });
             if(!has_valid_product_lot){
+               self.gui.show_screen('products');
                 self.gui.show_popup('confirm',{
-                    'title': _t('Empty Serial/Lot Number'),
-                    'body':  _t('One or more product(s) required serial/lot number.'),
+                    'title': _t('Ingrese el Serial/Lote'),
+                    'body':  _t('Uno o mas productos requieren serial/Lote.'),
                     confirm: function(){
                         self.gui.show_screen('payment');
                     },
                 });
-            }else{
+            }
+            else
+            {
                 self.gui.show_screen('payment');
             }
         });
