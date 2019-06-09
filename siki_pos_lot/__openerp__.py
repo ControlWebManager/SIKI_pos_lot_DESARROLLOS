@@ -6,10 +6,20 @@
         Lotes en pos""",
 
     'description': """
-        Agrega funcionalidad de core 10 punto de venta para lotes
+        Agrega funcionalidad de core 10 punto de venta para lotes     
+
+List of modifications:
+----------------------
+    * V.-1.0 Se verifica tipo de Funciones que se esta utilizando, Metodos del Core POS Version 11
+    * V.-1.1 Se incorporan reglas de acceso para correcta funcionalidad en multiples cajas - Importante: en la asignacion de permiso al grupo, se debe colocar el module al que se hace referencia en nuestro caso point_of_sale
+        * Permisos:
+            * model_pos_pack_operation_lot
+            * model_stock_production_lot
+    * V.-2.0 Se corrige error de asignacion de cantidades de productos en la orden de entrega
+
     """,
 
-    'author': "SIKI SAS, Developer Alejandro Maitan",
+    'author': "SIKI SAS, Developer Alejandro Maitan - Colaborador: Ing Henry Vivas controlwebmanager@gmail.com",
     'website': "www.sikisoftware.com",
 
     # Categories can be used to filter modules in modules listing
@@ -19,11 +29,11 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','point_of_sale'],
+    'depends': ['base','point_of_sale','sale_stock', 'barcodes'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
     ],
