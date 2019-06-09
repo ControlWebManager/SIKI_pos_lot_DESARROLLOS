@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_siki_pos_lot_siki_pos_lot,siki_pos_lot.siki_pos_lot,model_siki_pos_lot_siki_pos_lot,,1,0,0,0

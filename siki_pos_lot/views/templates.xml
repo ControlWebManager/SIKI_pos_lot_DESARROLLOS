@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <template id="assets" inherit_id="point_of_sale.assets">
+            <xpath expr="." position="inside">
+<script type="text/javascript" src="/siki_pos_lot/static/src/js/screens.js"/>
+            	<script type="text/javascript" src="/siki_pos_lot/static/src/js/popups.js"/>
+                <script type="text/javascript" src="/siki_pos_lot/static/src/js/pos.js"/>
+              
+            </xpath>
+        </template>
+    </data>
+</openerp>
