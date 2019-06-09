@@ -15,7 +15,8 @@ List of modifications:
         * Permisos:
             * model_pos_pack_operation_lot
             * model_stock_production_lot
-    * V.-2.0 Se corrige error de asignacion de cantidades de productos en la orden de entrega
+    * V.-2.0 Se corrige error, no se asignaba cantidades de producto en la Orden de Entrega Generada en el POS 
+error de asignacion de cantidades de productos en la orden de entrega
 
     """,
 
