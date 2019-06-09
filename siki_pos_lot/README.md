@@ -218,10 +218,11 @@ Se asigna de manera automática Némero de Serie / Número de Lote y sus respect
 ![](./static/src/img/Selección_742.png)
 
 
+#### White Box / Test de Caja Blanca 003
 
+Error: al selecionar varios productos tipo lote , la selección se suma en una misma linea de orde, la funcionalidad correcta debe ser que por cada producto tipo lote seleccionado , se debe crear una linea nueva (luego se puede seleccionar las cantidades a traves de teclado)
 
-### Requerimiento Fecha de vencimiento y organizacion de lista 
-
+NOTAÑ se percibe código omitido del POS 11 y otro comentado que puede tener repercuciones importantes para la ejecución del codigo en esta variante
 
 ---------------------
 ---------------------
