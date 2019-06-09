@@ -38,7 +38,7 @@ Código encontrado incompleto
       this.order_line.set_quantity(valid_lots.length);
   }
 ```
-Se actualizo de acuerdo el código completo del coro 11
+Se actualizo de acuerdo el código completo del core 11
 
 ```  ../siki_pos_lot/static/src/js/pos.js
 set_quantity_by_lot: function() {
