@@ -70,26 +70,26 @@ Se detecta que desde el método _force_picking_done() se llama al método set_pa
 Ej. wrong_lots = self.set_pack_operation_lot(cr, uid, [picking_id], context=context) -> llama al método set_pack_operation_lot, pero el método al ser llamado no recibe de manera correcta los argumentos cr, uid, context, ya que no esta preparado para hacerlo con la APi.Old, si no con la nueva: def set_pack_operation_lot(self, picking=None)
 
 Al verificar la traza de la función, al entrar en el método set_pack_operation_lot, el parámetro picking no tiene ningún valor, el mismo es importante para la correcta continuidad de funciones dentre de este
-![](./static/src/img/Selección_743.png)
+![](/static/src/img/Selección_743.png)
      
 #### Anexo Error que se desea corrergir
 
-![](./static/src/img/Selección_735.png)
+![](/static/src/img/Selección_735.png)
 
 ##### Corrección de error
 
 Se utiliza funcionalidad de la Api.Old en el método set_pack_operation_lot, lo que hace variar drásticamente la estructura del mismo más no, su funcionalidad para lograr ejecutar todo el código que lo integra
 
 Al verificar nuevamente la traza del código, podemos observar una traza más extensa que recorre todo el método set_pack_operation_lot hasta retornar un resultado satisfactorio para la variable wrond_lots
-![](./static/src/img/Selección_740.png)
+![](/static/src/img/Selección_740.png)
 
 #### Anexos, Error Corregido
 
 Se asigna de manera automática cantidad de inventario para los productos de tipo almacenable y consumible
-![](./static/src/img/Selección_741.png)
+![](/static/src/img/Selección_741.png)
 
 Se asigna de manera automática Némero de Serie / Número de Lote y sus respectivas cantidades para los productos que dispone de ratreo
-![](./static/src/img/Selección_742.png)
+![](/static/src/img/Selección_742.png)
 
 ---------------------
 ---------------------
