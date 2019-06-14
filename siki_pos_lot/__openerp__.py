@@ -15,9 +15,9 @@ List of modifications:
         * Permisos:
             * model_pos_pack_operation_lot
             * model_stock_production_lot
-    * V.-2.0 Se corrige error, no se asignaba cantidades de producto en la Orden de Entrega Generada en el POS 
-error de asignacion de cantidades de productos en la orden de entrega
-
+    * V.-2.0 Se corrige error no se asignaba cantidad de producto en la Orden de Entrega Generada en el procesode ventas del POS
+    * V.-3.0 Se corrige error productos lotes, al seleccionar este tipo de producto la selección se sumaba en una sola linea de orden, su tratamiento normal es: cada producto lote seleccionado se crea una nueva línea de orden 
+    * V.-4.0 Se corrige error en orden de entrega, cuando se selecciona diferentes lotes en POS, la orden de entrega generada no asignaba las cantidades de productos a los lotes correspondiente
     """,
 
     'author': "SIKI SAS, Developer Alejandro Maitan - Colaborador: Ing Henry Vivas controlwebmanager@gmail.com",

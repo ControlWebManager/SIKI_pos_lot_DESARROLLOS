@@ -45,14 +45,16 @@ models.PosModel = models.PosModel.extend({
                 return loaded;
             }
 
-     
+
         },
-    
+
 
      
 
     });
 
+    //NOTA el error de lengh puede saltarse al desintalar siki pos lot, abrir POS
+    //sin esta aplicacion y elimanr el producto lote o serial que esta en la orden de line
 
 
 var _super_order = models.Order.prototype;
@@ -70,19 +72,69 @@ var _super_order = models.Order.prototype;
         }
     },
 
-    //add_product: function(product, options){
+    add_product: function(product, options){
 
 
-   // var line = new models.Orderline({}, {pos: this.pos, order: this, product: product});
-   // _super_order.add_product.apply(this,arguments);
-    //if(line.has_product_lot){
-           // this.display_lot_popup();
-       // }
 
- //},
+        if(this._printed){
+            this.destroy();
+            return this.pos.get_order().add_product(product, options);
+        }
+        this.assert_editable();
+        options = options || {};
+        var attr = JSON.parse(JSON.stringify(product));
+        attr.pos = this.pos;
+
+        console.log('line 76 pos.js product ::',product )
+        attr.order = this;
+        var line = new models.Orderline({}, {pos: this.pos, order: this, product: product});
+
+        if(options.quantity !== undefined){
+            line.set_quantity(options.quantity);
+        }
+
+        if(options.price !== undefined){
+            line.set_unit_price(options.price);
+        }
+
+        //To substract from the unit price the included taxes mapped by the fiscal position
+        this.fix_tax_included_price(line);
+
+        if(options.discount !== undefined){
+            line.set_discount(options.discount);
+        }
+
+        if(options.extras !== undefined){
+            for (var prop in options.extras) {
+                line[prop] = options.extras[prop];
+            }
+        }
+
+        var last_orderline = this.get_last_orderline();
+
+        if( last_orderline && last_orderline.can_be_merged_with(line) && options.merge !== false){
+            //Condicional necesario para establecer una nueva l[inea para los productos lotes
+            if(last_orderline.product.tracking == 'lot') {
+                this.orderlines.add(line);
+
+            }else{
+
+                last_orderline.merge(line);
+            }
+        }else{
+            this.orderlines.add(line);
+        }
+        this.select_orderline(this.get_last_orderline());
+
+        console.log('Line 128 pos.js virificar tipo de rasstreo', line)
+        if(line.has_product_lot && line.tracking != 'lot'){
+            this.display_lot_popup();
+        }
+    },
+
+
 
 });
-
 
 
    var _super_orderline = models.Orderline.prototype;
