@@ -18,6 +18,8 @@ List of modifications:
     * V.-2.0 Se corrige error no se asignaba cantidad de producto en la Orden de Entrega Generada en el procesode ventas del POS
     * V.-3.0 Se corrige error productos lotes, al seleccionar este tipo de producto la selección se sumaba en una sola linea de orden, su tratamiento normal es: cada producto lote seleccionado se crea una nueva línea de orden 
     * V.-4.0 Se corrige error en orden de entrega, cuando se selecciona diferentes lotes en POS, la orden de entrega generada no asignaba las cantidades de productos a los lotes correspondiente
+    * V.-4.1 OPtimización en la creación de lotes en órden de entrega generada por el POS
+
     """,
 
     'author': "SIKI SAS, Developer Alejandro Maitan - Colaborador: Ing Henry Vivas controlwebmanager@gmail.com",

@@ -109,7 +109,7 @@ class pos_order(osv.osv):
 
                 #pos_pack_lots de ser un objeto
                 pos_pack_lots = PosPackOperationLot.browse(cr, uid, pos_pack_lots_s, context=context)
-                _logger.error('11 pos.pack.operation.lot %s', pos_pack_lots)
+                _logger.error('11 pos_pack_lots %s', pos_pack_lots)
 
                 pack_lot_names = [pos_pack.lot_name for pos_pack in pos_pack_lots]
                 _logger.error('12 pack_lot_names %s', pack_lot_names)
@@ -117,7 +117,7 @@ class pos_order(osv.osv):
                 if pack_lot_names:
                     #variable para recorrer las lineas de orden de lotes de manera individual
                     i = 0
-                    for lot_name in list(set(pack_lot_names)):
+                    for lot_name in pack_lot_names:
                         _logger.error('13.1 lot_name %s', lot_name)
                         stock_production_lot_s = StockProductionLot.search(cr, uid,
                             [('name', '=', lot_name), ('product_id', '=', pack_operation.product_id.id)], context=context)

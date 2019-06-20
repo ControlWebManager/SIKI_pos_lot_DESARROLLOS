@@ -20,7 +20,7 @@ odoo.define("siki_pos_lot.pos", function (require) {
 
 var PosModelSuper = models.PosModel.prototype;
 models.PosModel = models.PosModel.extend({
- 
+
             load_server_data: function(){
             var self = this;
             var loaded = PosModelSuper.load_server_data.call(this);
@@ -49,7 +49,7 @@ models.PosModel = models.PosModel.extend({
         },
 
 
-     
+
 
     });
 
@@ -58,7 +58,10 @@ models.PosModel = models.PosModel.extend({
 
 
 var _super_order = models.Order.prototype;
+
  models.Order = models.Order.extend({
+
+
   display_lot_popup: function() {
         var order_line = this.get_selected_orderline();
         if (order_line){
@@ -72,9 +75,7 @@ var _super_order = models.Order.prototype;
         }
     },
 
-    add_product: function(product, options){
-
-
+  add_product: function(product, options){
 
         if(this._printed){
             this.destroy();
@@ -126,13 +127,12 @@ var _super_order = models.Order.prototype;
         }
         this.select_orderline(this.get_last_orderline());
 
-        console.log('Line 128 pos.js virificar tipo de rasstreo', line)
+        console.log('Line 131 pos.js ', line)
         if(line.has_product_lot && line.tracking != 'lot'){
             this.display_lot_popup();
         }
+
     },
-
-
 
 });
 
@@ -143,7 +143,7 @@ var _super_order = models.Order.prototype;
       initialize: function(attr,options){
         _super_orderline.initialize.call(this,attr,options);
         this.set_product_lot(this.product);
-         
+
     },
 
      init_from_JSON: function(json) {
