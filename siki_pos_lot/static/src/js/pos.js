@@ -54,7 +54,7 @@ models.PosModel = models.PosModel.extend({
     });
 
     //NOTA el error de lengh puede saltarse al desintalar siki pos lot, abrir POS
-    //sin esta aplicacion y elimanr el producto lote o serial que esta en la orden de line
+    //elimanr el producto lote o serial que esta en la orden line
 
 
 var _super_order = models.Order.prototype;
@@ -99,7 +99,7 @@ var _super_order = models.Order.prototype;
         }
 
         //To substract from the unit price the included taxes mapped by the fiscal position
-        this.fix_tax_included_price(line);
+        //this.fix_tax_included_price(line);
 
         if(options.discount !== undefined){
             line.set_discount(options.discount);
