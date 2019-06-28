@@ -128,7 +128,7 @@ var _super_order = models.Order.prototype;
         this.select_orderline(this.get_last_orderline());
 
         console.log('Line 131 pos.js ', line)
-        if(line.has_product_lot && line.tracking != 'lot'){
+        if(line.has_product_lot && line.product.tracking != 'lot'){
             this.display_lot_popup();
         }
 
