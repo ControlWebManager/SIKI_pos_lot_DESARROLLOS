@@ -20,6 +20,8 @@ List of modifications:
     * V.-4.0 Se corrige error en orden de entrega, cuando se selecciona diferentes lotes en POS, la orden de entrega generada no asignaba las cantidades de productos a los lotes correspondiente
     * V.-4.1 OPtimización en la creación de lotes en órden de entrega generada por el POS
     * V.-4.2 Se elimina el llamado a la funcion fix_tax_included_price() desde add_product
+    * V.-4.3 Modificación de método widzard para lotes - serial
+    * V.-5.0 Condicional para saltar seleccion de lotes cpara el proceso de devolución por backend 
     """,
 
     'author': "SIKI SAS, Developer Alejandro Maitan - Colaborador: Ing Henry Vivas controlwebmanager@gmail.com",

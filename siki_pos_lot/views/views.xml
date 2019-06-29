@@ -1,5 +1,17 @@
 <openerp>
   <data>
+
+
+    <record id="view_inherit_line_order_tree" model="ir.ui.view">
+        <field name="name">siki.pos.lot.order.line</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lines']/tree/field[@name='qty']" position="after">
+                <field name="lote_id_name" />
+            </xpath>
+        </field>
+    </record>
     <!-- explicit list view definition -->
     <!--
     <record model="ir.ui.view" id="siki_pos_lot.list">

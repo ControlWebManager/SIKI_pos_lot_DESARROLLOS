@@ -10,6 +10,16 @@ _logger = logging.getLogger(__name__)
 class pos_order_line(models.Model):
     _inherit = 'pos.order.line'
 
+    def compute_lot_name(self):
+        tabla_pos_pack = self.env['pos.pack.operation.lot']
+        lst = []
+
+        for record in self:
+            record_lot = tabla_pos_pack.search([('pos_order_line_id', '=', record.id)])
+            record.lote_id_name = record_lot.lot_name
+            _logger.error('1 tabla_pos_pack_lot  %s', record_lot.lot_name)
+
+    lote_id_name = fields.Char('Lote/Serial', compute=compute_lot_name)
     pack_lot_ids = fields.One2many('pos.pack.operation.lot', 'pos_order_line_id', string='Lot/serial Number')
 
 
@@ -25,19 +35,29 @@ class pos_order(osv.osv):
         _logger.error('0 picking_info %s', picking_info.name)
         #import pdb; pdb.set_trace()
         _logger.error('1 picking_id %s', picking_id)
-        wrong_lots = self.set_pack_operation_lot_HENRY(cr, uid, [picking_id], context=context)
-        _logger.error('2 wrong_lots %s', wrong_lots)
-        #import pdb; pdb.set_trace()
 
+        PosOrderModel = self.pool.get('pos.order')
+        search_pos_id = PosOrderModel.search(cr, uid, [('picking_id', '=', picking_id)], context=context)
+        pos_order = PosOrderModel.browse(cr, uid, search_pos_id, context=context)
+        _logger.error('1.1 picking_id %s', pos_order.pos_reference)
 
-        if not wrong_lots:
-            _logger.error('3 wrong_lots en el If not %s', wrong_lots)
-        # Mark pack operations as done
-        #pick = picking_obj.browse(cr, uid, picking_id, context=context)
-        #for pack in pick.pack_operation_ids.filtered(lambda x: x.product_id.tracking == 'none'):
-            #self.pool['stock.pack.operation'].write(cr, uid, [pack.id], {'qty_done': pack.product_qty}, context=context)
-        #if not any([(x.product_id.tracking != 'none') for x in pick.pack_operation_ids]):
-            picking_obj.action_done(cr, uid, [picking_id], context=context)
+        wrong_lots = ''
+
+        #Condicional para saltar seleccion de lotes cpara el proceso de devoluci[on por backend
+        if pos_order.pos_reference != False:
+            wrong_lots = self.set_pack_operation_lot_HENRY(cr, uid, [picking_id], context=context)
+            _logger.error('2 wrong_lots %s', wrong_lots)
+            #import pdb; pdb.set_trace()
+
+            if not wrong_lots:
+                _logger.error('3 wrong_lots en el If not %s', wrong_lots)
+            # Mark pack operations as done
+            #pick = picking_obj.browse(cr, uid, picking_id, context=context)
+            #for pack in pick.pack_operation_ids.filtered(lambda x: x.product_id.tracking == 'none'):
+                #self.pool['stock.pack.operation'].write(cr, uid, [pack.id], {'qty_done': pack.product_qty}, context=context)
+            #if not any([(x.product_id.tracking != 'none') for x in pick.pack_operation_ids]):
+                picking_obj.action_done(cr, uid, [picking_id], context=context)
+
 
     @api.multi
     def set_pack_operation_lot_ALEJANDRO(self, picking=None):
