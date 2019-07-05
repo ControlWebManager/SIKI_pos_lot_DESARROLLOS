@@ -20,6 +20,7 @@ class pos_order_line(models.Model):
 
     lote_id_name = fields.Char(compute='_compute_lot_name', store=False)
     pos_order_line_ids = fields.One2many('pos.pack.operation.lot', 'pos_order_line_id', string='Lot/serial Number')
+    pack_lot_ids = fields.One2many('pos.pack.operation.lot', 'pos_order_line_id', string='Lot/serial Number')
 
 
 class pos_order(osv.osv):
