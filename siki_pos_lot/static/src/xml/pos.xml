@@ -4,13 +4,13 @@
 
 <templates id="template" xml:space="preserve">
 
-<t t-extend="Orderline">
-  <t t-jquery="t[t-esc='line.get_product().display_name']" t-operation="after">
-  <t t-if="line.get_product().tracking!=='none'">
- <i t-attf-class="oe_link_icon fa fa-list oe_icon line-lot-icon #{line.has_valid_product_lot() ? 'oe_green' : 'oe_red' }"/>
-  </t> 
-  </t> 
-  </t>
+    <t t-extend="Orderline">
+      <t t-jquery="t[t-esc='line.get_product().display_name']" t-operation="after">
+        <t t-if="line.get_product().tracking!=='none'">
+            <i t-attf-class="oe_link_icon fa fa-list oe_icon line-lot-icon #{line.has_valid_product_lot() ? 'oe_green' : 'oe_red' }"/>
+        </t>
+      </t>
+    </t>
 
     <t t-name="PackLotLinePopupWidget">
         <div class="modal-dialog">
@@ -24,7 +24,7 @@
                                 t-att-value="lot_line.get('lot_name')"
                                 t-att-autofocus="lot_line === focus_lot_line ? 'autofocus': undefined"
                                 class="popup-input packlot-line-input"
-                                placeholder="Serial/Lot Number"/>
+                                placeholder="N° de Lote o Serie"/>
                             <i class="oe_link_icon remove-lot fa fa-trash-o"></i>
                         </t>
                     </t>

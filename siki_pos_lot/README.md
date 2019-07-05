@@ -16,14 +16,25 @@ A realizar comparación con el código del POS Version 11, se percibe que en sik
 
 ## Lista de Modificaciones
 
-* V.-1.0 Se corrige la falta de asignación de cantidades en los productos de lotes y serial en la linea de orden
-* V.-1.1 Se incorporan reglas de acceso para correcta funcionalidad en multiples cajas - Importante: en la asignacion de permiso al grupo, se debe colocar el module al que se hace referencia en nuestro caso point_of_sale
- * Permisos:
-    * model_pos_pack_operation_lot
-    * model_stock_production_lot
-* V.-2.0 Se corrige error de asignacion de cantidades de productos en la orden de entrega
+Agrega funcionalidad de core 10 punto de venta para lotes     
 
-
+List of modifications:
+----------------------
+    * V.-1.0 Se verifica tipo de Funciones que se esta utilizando, Metodos del Core POS Version 11
+    * V.-1.1 Se incorporan reglas de acceso para correcta funcionalidad en multiples cajas - Importante: en la asignacion de permiso al grupo, se debe colocar el module al que se hace referencia en nuestro caso point_of_sale
+        * Permisos:
+            * model_pos_pack_operation_lot
+            * model_stock_production_lot
+    * V.-2.0 Se corrige error no se asignaba cantidad de producto en la Orden de Entrega Generada en el procesode ventas del POS
+    * V.-3.0 Se corrige error productos lotes, al seleccionar este tipo de producto la selección se sumaba en una sola linea de orden, su tratamiento normal es: cada producto lote seleccionado se crea una nueva línea de orden 
+    * V.-4.0 Se corrige error en orden de entrega, cuando se selecciona diferentes lotes en POS, la orden de entrega generada no asignaba las cantidades de productos a los lotes correspondiente
+    * V.-4.1 OPtimización en la creación de lotes en órden de entrega generada por el POS
+    * V.-4.2 Se elimina el llamado a la funcion fix_tax_included_price() desde add_product
+    * V.-4.3 Modificación de método widzard para lotes - serial
+    * V.-5.0 Condicional para saltar seleccion de lotes cpara el proceso de devolución por backend
+    * V.-5.1 CAmbio de Icono de Lotes, presentacion mas grande en el POS
+ 
+    """,
 ### Fase de Prueba : 
 
 #### White Box / Test de Caja Blanca 001

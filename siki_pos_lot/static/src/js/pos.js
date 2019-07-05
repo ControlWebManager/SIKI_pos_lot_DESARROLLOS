@@ -67,7 +67,7 @@ var _super_order = models.Order.prototype;
         if (order_line){
             var pack_lot_lines =  order_line.compute_lot_lines();
             this.pos.gui.show_popup('packlotline', {
-                'title': _t('Lot/Serial Number(s) Required'),
+                'title': _t('Requiere un N° de Lote o Serial'),
                 'pack_lot_lines': pack_lot_lines,
                 'order_line': order_line,
                 'order': this,
@@ -86,7 +86,7 @@ var _super_order = models.Order.prototype;
         var attr = JSON.parse(JSON.stringify(product));
         attr.pos = this.pos;
 
-        console.log('line 76 pos.js product ::',product )
+        //console.log('line 76 pos.js product ::',product )
         attr.order = this;
         var line = new models.Orderline({}, {pos: this.pos, order: this, product: product});
 
@@ -127,7 +127,7 @@ var _super_order = models.Order.prototype;
         }
         this.select_orderline(this.get_last_orderline());
 
-        console.log('Line 131 pos.js ', line)
+        //console.log('Line 131 pos.js ', line)
         if(line.has_product_lot){
             if(line.product.tracking != 'lot'){
                this.display_lot_popup();

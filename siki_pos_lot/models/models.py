@@ -10,17 +10,16 @@ _logger = logging.getLogger(__name__)
 class pos_order_line(models.Model):
     _inherit = 'pos.order.line'
 
-    def compute_lot_name(self):
+    def _compute_lot_name(self):
         tabla_pos_pack = self.env['pos.pack.operation.lot']
-        lst = []
 
         for record in self:
             record_lot = tabla_pos_pack.search([('pos_order_line_id', '=', record.id)])
             record.lote_id_name = record_lot.lot_name
-            _logger.error('1 tabla_pos_pack_lot  %s', record_lot.lot_name)
+            #_logger.error('1 tabla_pos_pack_lot  %s', record.lote_id_name)
 
-    lote_id_name = fields.Char('Lote/Serial', compute=compute_lot_name)
-    pack_lot_ids = fields.One2many('pos.pack.operation.lot', 'pos_order_line_id', string='Lot/serial Number')
+    lote_id_name = fields.Char(compute='_compute_lot_name', store=False)
+    pos_order_line_ids = fields.One2many('pos.pack.operation.lot', 'pos_order_line_id', string='Lot/serial Number')
 
 
 class pos_order(osv.osv):
@@ -32,25 +31,25 @@ class pos_order(osv.osv):
         picking_obj.action_confirm(cr, uid, [picking_id], context=context)
         picking_obj.force_assign(cr, uid, [picking_id], context=context)
         picking_info = picking_obj.browse(cr, uid, picking_id, context=context)
-        _logger.error('0 picking_info %s', picking_info.name)
+        #_logger.error('0 picking_info %s', picking_info.name)
         #import pdb; pdb.set_trace()
-        _logger.error('1 picking_id %s', picking_id)
+        #_logger.error('1 picking_id %s', picking_id)
 
         PosOrderModel = self.pool.get('pos.order')
         search_pos_id = PosOrderModel.search(cr, uid, [('picking_id', '=', picking_id)], context=context)
         pos_order = PosOrderModel.browse(cr, uid, search_pos_id, context=context)
-        _logger.error('1.1 picking_id %s', pos_order.pos_reference)
+        #_logger.error('1.1 picking_id %s', pos_order.pos_reference)
 
         wrong_lots = ''
 
         #Condicional para saltar seleccion de lotes cpara el proceso de devoluci[on por backend
         if pos_order.pos_reference != False:
             wrong_lots = self.set_pack_operation_lot_HENRY(cr, uid, [picking_id], context=context)
-            _logger.error('2 wrong_lots %s', wrong_lots)
+            #_logger.error('2 wrong_lots %s', wrong_lots)
             #import pdb; pdb.set_trace()
 
             if not wrong_lots:
-                _logger.error('3 wrong_lots en el If not %s', wrong_lots)
+                #_logger.error('3 wrong_lots en el If not %s', wrong_lots)
             # Mark pack operations as done
             #pick = picking_obj.browse(cr, uid, picking_id, context=context)
             #for pack in pick.pack_operation_ids.filtered(lambda x: x.product_id.tracking == 'none'):
@@ -62,7 +61,7 @@ class pos_order(osv.osv):
     @api.multi
     def set_pack_operation_lot_ALEJANDRO(self, picking=None):
         """Set Serial/Lot number in pack operations to mark the pack operation done."""
-        _logger.error('4 set_pack_operation_lot picking %s', picking)
+        #_logger.error('4 set_pack_operation_lot picking %s', picking)
         StockProductionLot = self.env['stock.production.lot']
         PosPackOperationLot = self.env['pos.pack.operation.lot']
         has_wrong_lots = False
@@ -96,64 +95,64 @@ class pos_order(osv.osv):
 
     def set_pack_operation_lot_HENRY(self, cr, uid, picking, context=None):
         """Set Serial/Lot number in pack operations to mark the pack operation done."""
-        _logger.error('4 set_pack_operation_lot picking %s', picking)
+        #_logger.error('4 set_pack_operation_lot picking %s', picking)
 
         #Se debe obtener los modelos con la API old
         StockProductionLot = self.pool.get('stock.production.lot')
         PosPackOperationLot = self.pool.get('pos.pack.operation.lot')
-        _logger.error('5 PosPackOperationLot picking %s', PosPackOperationLot)
+        #_logger.error('5 PosPackOperationLot picking %s', PosPackOperationLot)
         PosOrderModel = self.pool.get('pos.order')
-        _logger.error('6 pos_order_env picking %s', PosOrderModel)
+        #_logger.error('6 pos_order_env picking %s', PosOrderModel)
 
         #Buscar el id de la Orden generada por el POS de acuerdo al valor picking que llega en la funcion
         search_pos_id = PosOrderModel.search(cr, uid, [('picking_id', '=', picking)], context=context)
-        _logger.error('7 search_pos_id picking %s', search_pos_id)
+        #_logger.error('7 search_pos_id picking %s', search_pos_id)
 
         #Objet de la Orden del POs, similiar al Self que se generaria en la API New
         pos_order = PosOrderModel.browse(cr, uid, search_pos_id, context=context)
-        _logger.error('8 pos_order %s -> %s', pos_order, pos_order.name)
+        #_logger.error('8 pos_order %s -> %s', pos_order, pos_order.name)
 
         has_wrong_lots = False
         # pic = self.env['stock.picking'].browse(picking)
         # import pdb; pdb.set_trace()
         for order in pos_order:
             for pack_operation in order.picking_id.pack_operation_ids:
-                _logger.error('9 pack_operation %s', pack_operation)
+                #_logger.error('9 pack_operation %s', pack_operation)
                 qty = 0
                 qty_done = 0
                 pack_lots = []
                 #Se debe utilizar Api Old para search en pos_pack_lots
                 pos_pack_lots_s = PosPackOperationLot.search(cr, uid,
                     [('order_id', '=', order.id), ('product_id', '=', pack_operation.product_id.id)], context=context)
-                _logger.error('10 pos_pack_lots_s %s', pos_pack_lots_s)
+                #_logger.error('10 pos_pack_lots_s %s', pos_pack_lots_s)
 
                 #pos_pack_lots de ser un objeto
                 pos_pack_lots = PosPackOperationLot.browse(cr, uid, pos_pack_lots_s, context=context)
-                _logger.error('11 pos_pack_lots %s', pos_pack_lots)
+                #_logger.error('11 pos_pack_lots %s', pos_pack_lots)
 
                 pack_lot_names = [pos_pack.lot_name for pos_pack in pos_pack_lots]
-                _logger.error('12 pack_lot_names %s', pack_lot_names)
+                #_logger.error('12 pack_lot_names %s', pack_lot_names)
 
                 if pack_lot_names:
                     #variable para recorrer las lineas de orden de lotes de manera individual
                     i = 0
                     for lot_name in pack_lot_names:
-                        _logger.error('13.1 lot_name %s', lot_name)
+                        #_logger.error('13.1 lot_name %s', lot_name)
                         stock_production_lot_s = StockProductionLot.search(cr, uid,
                             [('name', '=', lot_name), ('product_id', '=', pack_operation.product_id.id)], context=context)
-                        _logger.error('13 stock_production_lot_s %s', stock_production_lot_s)
+                        #_logger.error('13 stock_production_lot_s %s', stock_production_lot_s)
 
                         # stock_production_lot debe ser un objeto
                         stock_production_lot = StockProductionLot.browse(cr, uid, stock_production_lot_s, context=context)
 
                         if stock_production_lot:
-                            _logger.error('14 stock_production_lot %s', stock_production_lot)
+                            #_logger.error('14 stock_production_lot %s', stock_production_lot)
 
-                            _logger.error('15 pos_pack_lots_s %s', pos_pack_lots_s[i])
+                            #_logger.error('15 pos_pack_lots_s %s', pos_pack_lots_s[i])
                             if stock_production_lot.product_id.tracking == 'lot':
                                 #accedo a la linea de orde de manera individual para evitar el error de singleton
                                 line_select = PosPackOperationLot.browse(cr, uid,[pos_pack_lots_s[i]], context=context)
-                                _logger.error('15.1 line_select.pos_order_line_id.qty %s ', line_select.pos_order_line_id.qty)
+                                #_logger.error('15.1 line_select.pos_order_line_id.qty %s ', line_select.pos_order_line_id.qty)
 
                                 qty = line_select.pos_order_line_id.qty
                             else:
@@ -161,12 +160,12 @@ class pos_order(osv.osv):
                             i += 1
                             qty_done += qty
                             pack_lots.append({'lot_id': stock_production_lot.id, 'qty': qty})
-                            _logger.error('16 pack_lots %s', pack_lots)
+                            #_logger.error('16 pack_lots %s', pack_lots)
 
                         else:
                             has_wrong_lots = True
 
-                _logger.error('18 pack_operation %s', pack_operation)
+                #_logger.error('18 pack_operation %s', pack_operation)
 
                 pack_operation.write({'pack_lot_ids': map(lambda x: (0, 0, x), pack_lots), 'qty_done': qty_done})
 
